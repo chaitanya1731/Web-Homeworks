@@ -1,0 +1,142 @@
+Name:		Chaitanya Kulkarni
+B-Number:	B00814455
+Email:		ckulkar2@binghamton.edu
+
+//----Qsn 1
+function wordLengths(text) {
+    return text.split(/\s+/g).filter(i => i).map(i=>i.length);
+}
+
+//-----Qsn 2
+function selectWords(str, number) {
+    return (number ? (str.split(/\s+/g).filter(i => i.length % number === 0)) :
+        (str.split(/\s+/g).filter(i => i).map(i=>i)));
+}
+
+//-----Qsn 3
+function casedWords(text){
+    return(text.toLowerCase().split(/\s+/g).filter(i=>i)
+        .map(word => { return (word.length % 2) ? 
+		(word.replace(/[a-z]/, word[0].toUpperCase())) : word }));
+}
+
+//-----Qsn 4
+function alternatingCase(text){
+    return(text.toLowerCase().split(/\s+/g).filter(i=>i)
+        .map(word => { return (word.length % 2) ?
+            (word.replace(/[a-z0-9]/gi, c=>c[`to${(word=!word)?'Low':'Upp'}erCase`]()))
+            : (word.replace(/[a-z0-9]/gi, c=>c[`to${(word=!word)?'Upp':'Low'}erCase`]())) }));
+}
+
+//-----Qsn 5
+function rotAlphabets(text, n=13) {
+    return (text.split('').map(i => i.replace(/[A-Za-z]/g, i =>  {
+        return String.fromCharCode((i <= "Z" ? 90 : 122) >= (i = i.charCodeAt(0) + n) ?
+            i : i-26)})).join('').toString());
+}
+
+//-----Qsn 6
+function wordLenPoly(text, x) {
+    return (text.split(/\s+/g).filter(i => i).map((i, index) => {
+        return (i.length * Math.pow(x, index));}).reduce((a, b) => a + b, 0));
+}
+
+//-----Qsn 7
+function map2(fn, list1, list2){
+    return(list1.map((i, index) => {
+        return fn(i, list2[index]);}).filter(i=>i));
+}
+
+//-----Qsn 8
+function rmap2(fn, list){
+    return(list.map((i, index) => {
+        return (fn(i, list[list.length-index-1]))}))
+}
+
+//-----Qsn 9
+function partialSums(list){
+    return (list.map((item,index) => list.filter((temp,j) => j <= index))
+            .map(item => item.reduce((a, b) => a + b,0)));
+}
+
+//-----Qsn 10
+function partialFnAppl(fn, list){
+    return (list.map((item,index) => list.filter((temp,j) => j <= index))
+            .map(item => item.reduce(fn)));
+}
+
+//-----Qsn 11
+Since the strings in JavaScript are immutable,
+meaning that they cannot change, instead can make a new string.
+Hence memory allocated to each string cannot be over-written.
+The only way to do it is assigning a new memory location. Hence making "in place" reversals not possible.
+
+
+//-----Qsn 12
+In the given code, first of all there is no (===) which is first mistake since in js we neet to match the type as well as the value of the string.
+Also if we check the object with only null, and not undefined, it might throw an exception for undefined. 
+Hence we check the object is null as well as undefined. Also it is better practice to check if the length of the object is greater than 0 to raise no exception.
+if (obj.id===null || obj.id===undefined){
+    throw(e);
+}
+
+//-----Qsn 13
+1. /[(a+b)*(b)\b]{99}[b]{1}$/
+2. /[(a+b)*(b)\b]{100,}[b]{1}$/
+3. /a*ba*ba*b/
+4. /a*|(a*ba*ba*ba*)*/
+5. /(a(a|b)*a)|(b(a|b)*b)/g
+
+
+//-----Qsn 14
+To determine the category of the phone numbers, we could use the Regular Expressions,
+Since the Regex is a sequence of the characters that define a search pattern.
+
+To determine the category of the phone numbers, we could apply some search criterion on the 
+number string and evaluate the pattern and can classify the category amongst Low, Medium and High.
+
+For spammer, High category would be the one where he could harm the society more. 
+Hence the phone number is likely to be a VIP number or number having continous sequence of same digits 
+or the Phone number whose area code is a big cities or finance districts(New York Exchange, Bay area, SFO, etc). 
+Hence to determine such numbers, he could use the below Regex - 
+
+/^(1?(-?\d{3})-?)?(\d{3})(-?\d{4})/$
+Hence the given regex can determine both special sequence numbers as well as area codes. (Also number starting from 1 since it is US number) 
+
+Ex - 
+1. 1-718-444-7777 (Can detect the phone number having 718 as area code (NYC), 444 and 7777 continous sequence of same digits) 
+2. 0-718-424-7541 (Cannot detect since number is not US number)
+3. 123-456-7890 (Wrong format even if 11 digits including code)
+Hence the above regex determines the number with strict rules.
+
+Medium category can be classified where threat would be comparatively less and in states with less population and no companies or not a finance district.
+Hence to determine such numbers, he could use the below Regex -
+
+Ex - 
+^([0-9]?(-?\d{3})-?)?(\d{3})(-?\d{4})$
+1. 1-223-364-7684 (Detect US number 10 digits any area)
+2. 2-242-943-2343 (Can detect US number as well as non US number)
+
+
+Low category can be a rural area where there is no advantage for the spammer to spam. Hence to determine such numbers, he could use the below Regex -
+
+^[2-9]\d{2}-\d{3}-\d{4}$
+
+Ex - 
+1. 607-304-1931 (Can determine the number with 10 digits with no area code)
+2. 475-839-2335 (Can detect the 10 digit phone number with any area code in US)
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+

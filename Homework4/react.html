@@ -1,0 +1,151 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>React Form</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+    const data = {
+  rubricCategories: {
+    hw: { title: 'Homework', },
+    prj: { title: 'Project', },
+    quiz: { title: 'Quiz', },
+    exam: { title: 'Exam', }
+  },
+  rubrics: {
+    hw4: {
+      title: 'Homework 4',
+      category: 'hw',
+      dateAssigned: '2020-04-28',
+      dateDue: '2020-05-05',
+    },
+    prj4: {
+      title: 'Project 4',
+      category: 'prj',
+      dateAssigned: '2020-04-21',
+      dateDue: '2020-05-05',
+    },
+  },
+  students: {
+    'b123456': {
+      name: 'John Doe',
+      class: 'senior',
+    },
+    'b234567': {
+      name: 'Mary Doe',
+      class: 'graduate',
+    },
+  },
+  grades: {
+    hw4: {
+      b123456: { points: 92, },
+      b234567: { points: 87, },
+    },
+    prj4: {
+      b123456: { points: 97, },
+      b234567: { points: 90, },
+    },
+  },
+};
+      class NameForm extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {value: ''};
+          this.handleChange = this.handleChange.bind(this);
+          this.handleSubmit = this.handleSubmit.bind(this);
+          this.state.studentInfoArray = [];
+        }
+
+        handleChange(event) {
+          this.setState({value: event.target.value});
+        }
+
+        handleSubmit(event) {
+this.setState(prevState => ({
+    studentInfoArray: [{
+        studentName: data.students[this.state.value].name,
+        studentID: this.state.value,
+        grades:{
+            rubricCategories:{
+            hw: [{
+                id: data.rubrics.hw4.category,
+                grade: data.grades.hw4[this.state.value].points,
+                average: 'Calculate the average by iterating through points of that rubric category',
+            }],
+            prj: [{
+                id: data.rubrics.prj4.category,
+                grade: data.grades.prj4[this.state.value].points,
+                average: 'Calculate the average by iterating through points of that rubric category',
+            }],
+            },
+        },
+        average: 'Calculated by iterating through all the points in all the rubric category',      
+        rank: 'Determined using the overall grade assigned to that student',
+    }]
+}));
+          event.preventDefault();
+        }
+
+        render() {
+          return (
+            <div>
+                <form onSubmit={this.handleSubmit}>
+                    <label>
+                        Name:
+                        <input type="text" value={this.state.value}
+                            onChange={this.handleChange} />
+                    </label>
+                    <input type="submit" value="Submit" />
+                        <label>Data entered is - : </label><span>{this.state.value}</span>               
+                </form>  
+<div>
+    {this.state.studentInfoArray.map(student => (
+    <div className="student" key={student.studentID}><br />
+        Student ID: {student.studentID}<br />
+        Name: {student.studentName}<br />
+        <div>
+            &emsp;Grades<br />
+            {student.grades.rubricCategories.hw.map(rubric=>(
+                <div key={rubric.id}>
+                    &emsp;&emsp;Category: {rubric.id}<br />
+                    &emsp;&emsp;grade: {rubric.grade}<br />
+                    &emsp;&emsp;average: {rubric.average}<br />
+                </div>
+            ))}
+        </div>
+        <br />
+        <div>
+            {student.grades.rubricCategories.prj.map(rubric=>(
+                <div key={rubric.id}>
+                    &emsp;&emsp;Category: {rubric.id}<br />
+                    &emsp;&emsp;grade: {rubric.grade}<br />
+                    &emsp;&emsp;average: {rubric.average}<br />
+                </div>
+            ))}
+        </div>
+        Average: {student.average}<br />
+        Rank: {student.rank}<br />
+    </div>
+    ))}
+</div>
+            
+            </div>
+               
+          );
+        }
+      }
+
+      ReactDOM.render(
+        <NameForm />,
+        document.getElementById('root')
+      );
+
+    </script>
+  </body>
+</html>

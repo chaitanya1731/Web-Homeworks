@@ -1,0 +1,81 @@
+<head>
+   <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+</head>
+<body>
+<h1>Grades for a Student</h1>
+<h2 id="details" style="color:red;"></h2>
+
+<dl>
+   <dd class="students">
+      <dl class="grades">
+         <dt>Student Name - </dt>
+         <dd id="name"><strong>Harry Potter</strong></dd><br>
+         <dt>Homework Grades</dt>
+         <dd id="homework">
+            <ul>
+               <li id="homework1"><label>Homework 1 :<label> <p>94</p></li>
+               <li id="homework2"><label>Homework 2 :<label> <p>95</p></li>
+               <li id="homework3"><label>Homework 3 :<label> <p>99</p></li>
+               <li id="homework4"><label>Homework 4 :<label> <p>100</p></li>
+            </ul>
+         </dd>
+		 <dt>Project Grades</dt>
+		  <dd id="project">
+            <ul>
+               <li id="project1"><label>Project 1 :<label> <p>100<p></li>
+               <li id="project2"><label>Project 2 :<label> <p>90<p></li>
+               <li id="project3"><label>Project 3 :<label> <p>95<p></li>
+               <li id="project4"><label>Project 4 :<label> <p>100<p></li>
+            </ul>
+         </dd>
+      </dl>
+   </dd>
+</dl>
+
+<script type="text/javascript"> 
+const fns = (function() {
+const fns = {};
+const select = fns.select = function ($elements) {
+   //Just making other elements back to normal white background
+   //for proper understanding
+   makeElementsNormal();
+   //Highlight the selected element
+   $elements.css('backgroundColor', 'yellow');
+}
+function makeElementsNormal(){
+   $('dd #name').css('backgroundColor', 'white'); 
+   $('#homework1').css('backgroundColor', 'white');
+   $('#project4').css('backgroundColor', 'white');
+   $('#details').html(``);
+}
+function getScore($element, isAvg){
+   makeElementsNormal();
+	let gradesArr = [];
+	let sum = 0;
+	for ( let i = 0; i < $element.length; i++ ) {
+		gradesArr.push(parseInt($element[i].innerHTML));
+   }
+   if(isAvg){
+      const arrSum = gradesArr => gradesArr.reduce((a,b) => a + b)
+      const arrAvg = gradesArr => gradesArr.reduce((a,b) => a + b) / gradesArr.length;
+	   $("#details").html(`Average of all Homeworks = ${arrSum(gradesArr)}/${gradesArr.length} = ${arrAvg(gradesArr)}`);
+   }
+   else{
+      $("#details").html(`Homework Grades are : [${gradesArr}]`);
+   }
+}
+
+fns.f1 = () => select($('dd #name'));
+fns.f2 = () => getScore($('#homework ul li p').toArray());
+fns.f3 = () => getScore($('#homework ul li p').toArray(), 1);
+fns.f4 = () => select($('#homework1'));
+fns.f5 = () => select($('#project4'));
+return fns;
+})();
+</script>
+
+<style rel="stylesheet" type="text/css">
+li p {
+    display: inline;
+}
+</style>
